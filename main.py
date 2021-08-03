@@ -1,13 +1,11 @@
+import os
 import tkinter as tk
 from tkinter import *
 from mhrlists import *
 import gspread #
 
-#sort the skill list from mhrlists, i could do these manually to save on operation time but kekw xd
-skills.sort()
-slots.sort()
-
 #google sheets driver
+print("working directory: " + os.getcwd())
 gc = gspread.service_account(filename='credentials.json')
 sh = gc.open("Charm Tracker")
 worksheet_list = sh.worksheets()
@@ -24,6 +22,7 @@ def popupmsg(msg):
     b1.pack()
     popup.mainloop()
 
+#update the first listbox
 def listboxEntry1Update(event):
     selection =  event.widget.curselection()
     if selection:
@@ -32,6 +31,7 @@ def listboxEntry1Update(event):
         e.delete(0, END)
         e.insert(0,data)
 
+#update the second listbox
 def listboxEntry2Update(event):
     selection =  event.widget.curselection()
     if selection:
@@ -41,14 +41,13 @@ def listboxEntry2Update(event):
         e2.insert(0,data)
 
 def append():
-    #print('calling append')
     skills1 = e.get()
     skills2 = e2.get()
     if skills1 == "" and skills2 != "":
         skills1 = skills2
         skills2 = ""
     #reset the entry + listboxes if the user appends garbage or duplicate skills
-    if not (skills1 in skillset) or not (skills2 in skillset) or (skills1 ==  skills2):
+    if not (skills1 in skillset) or not (skills2 in skillset) or (skills1 == skills2):
         print("invalid talisman")
         e.delete(0, END)
         e2.delete(0, END)
